@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SignSpeak — ASL Translator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🤟</div>
+    Sign<em>Speak</em>
+  </div>
+  <div class="badge">ASL · GEMINI 2.0 · MEDIAPIPE</div>
+</header>
+
+<main>
+  <!-- LEFT: Camera -->
+  <div class="cam-panel">
+    <div class="cam-wrap">
+      <div class="cam-placeholder" id="placeholder">
+        <div class="icon">📷</div>
+        <div>Click <strong>Start Camera</strong> to begin</div>
+      </div>
+      <img id="video-feed" src="" alt="Camera feed" style="display:none"/>
+      <div class="cam-pill" id="cam-pill">
+        <span class="dot"></span>
+        <span id="pill-text">OFFLINE</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="btn-start" onclick="startCamera()">▶ Start Camera</button>
+      <button class="btn btn-red"     id="btn-stop"  onclick="stopCamera()"  disabled>■ Stop</button>
+      <button class="btn btn-green"   id="btn-trans" onclick="translate_func()"   disabled>🤟 Translate</button>
+      <div class="speed">
+        <input type="radio" name="spd" id="spd-n" value="normal" checked/>
+        <label for="spd-n">Normal</label>
+        <input type="radio" name="spd" id="spd-s" value="slow"/>
+        <label for="spd-s">Slow</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Side Panel -->
+  <div class="side">
+
+    <!-- Result -->
+    <div class="card">
+      <div class="card-label">Translation Result</div>
+      <div class="result-box" id="result-box">
+        <div class="shimmer"></div>
+        <div class="result-inner">
+          <span class="result-placeholder" id="rph">Waiting for gesture…</span>
+          <span id="rval" style="display:none"></span>
+        </div>
+      </div>
+      <audio id="player"></audio>
+      <div class="audio-row" id="audio-row" style="display:none">
+        <button class="btn btn-ghost" onclick="replayAudio()">🔊 Replay</button>
+        <button class="btn btn-ghost" onclick="copyResult()">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <div class="card-label" style="justify-content:space-between">
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="width:3px;height:13px;background:linear-gradient(to bottom,var(--accent),var(--green));border-radius:2px;display:block"></span>
+          History
+        </span>
+        <button class="btn btn-ghost" style="padding:3px 11px;font-size:0.72rem" onclick="clearHistory()">Clear</button>
+      </div>
+      <div class="history-list" id="history"></div>
+    </div>
+
+    <!-- Reference -->
+    <div class="card">
+      <div class="card-label">Quick Reference</div>
+      <div class="tips-grid">
+        <div class="tip"><div class="tip-icon">✊</div>Stop / A</div>
+        <div class="tip"><div class="tip-icon">👍</div>Thumbs Up</div>
+        <div class="tip"><div class="tip-icon">✌️</div>Peace / Two</div>
+        <div class="tip"><div class="tip-icon">🖐️</div>Hello / Five</div>
+        <div class="tip"><div class="tip-icon">🤙</div>Call Me / Y</div>
+        <div class="tip"><div class="tip-icon">🤟</div>I Love You</div>
+        <div class="tip"><div class="tip-icon">👆</div>One / Point</div>
+        <div class="tip"><div class="tip-icon">👌</div>OK / Zero</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>SignSpeak — Powered by Google Gemini 2.0 Flash + MediaPipe Hands &nbsp;|&nbsp; Press <kbd style="background:var(--surf2);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:0.65rem">Space</kbd> to translate</footer>
+<div class="toast" id="toast"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
